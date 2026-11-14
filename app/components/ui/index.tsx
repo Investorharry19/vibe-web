@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import type { ReactNode, ButtonHTMLAttributes } from "react";
-import type { Intent } from "@/app/types";
+import type { Intent } from "@/types";
 
 // ── Spinner ───────────────────────────────────────────────────────────────────
 

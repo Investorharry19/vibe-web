@@ -8,7 +8,7 @@ import type {
   VibeExpiredEvent,
   RequestReceivedEvent,
   RequestRespondedEvent,
-} from "@/app/types";
+} from "@/types";
 
 const SOCKET_URL =
   process.env.NEXT_PUBLIC_SOCKET_URL ?? "http://localhost:3000";

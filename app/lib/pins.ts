@@ -1,5 +1,5 @@
 import L from "leaflet";
-import type { Intent } from "@/app/types";
+import type { Intent } from "@/types";
 
 const intentColors: Record<Intent, string> = {
   drinks: "#ffb74d",
