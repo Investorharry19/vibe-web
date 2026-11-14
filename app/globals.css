@@ -1,26 +1,158 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+@import 'leaflet/dist/leaflet.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design tokens ─────────────────────────────────────────────────────────── */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Dark theme (default) */
+  --bg:          #0a0a0a;
+  --bg-2:        #111111;
+  --bg-3:        #1a1a1a;
+  --bg-4:        #222222;
+  --border:      #2a2a2a;
+  --border-l:    #333333;
+  --ink:         #f0ede8;
+  --ink-2:       #999999;
+  --ink-3:       #555555;
+  --ink-4:       #333333;
+  --accent:      #e8ff47;
+  --accent-dim:  rgba(232,255,71,0.12);
+  --shadow:      rgba(0,0,0,0.4);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Light theme */
+html.light {
+  --bg:          #f5f4f0;
+  --bg-2:        #ffffff;
+  --bg-3:        #efefec;
+  --bg-4:        #e8e7e3;
+  --border:      #e0dfd9;
+  --border-l:    #d0cfc9;
+  --ink:         #1a1a1a;
+  --ink-2:       #555555;
+  --ink-3:       #888888;
+  --ink-4:       #bbbbbb;
+  --accent:      #b8cc00;
+  --accent-dim:  rgba(184,204,0,0.12);
+  --shadow:      rgba(0,0,0,0.12);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    font-family: 'DM Sans', sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  #__next,
+  main {
+    height: 100%;
+    width: 100%;
+  }
+
+  ::selection {
+    background-color: var(--accent-dim);
+    color: var(--accent);
+  }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--border-l);
+    border-radius: 9999px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Leaflet dark theme */
+  .leaflet-container {
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.3s ease;
+  }
+
+  .leaflet-control-zoom a {
+    background-color: var(--bg-2) !important;
+    color: var(--ink) !important;
+    border-color: var(--border) !important;
+  }
+  .leaflet-control-zoom a:hover {
+    background-color: var(--bg-3) !important;
+  }
+  .leaflet-control-attribution {
+    background-color: var(--bg-2) !important;
+    border: 1px solid var(--border);
+    border-radius: 6px 0 0;
+    color: var(--ink-2) !important;
+    padding: 2px 6px !important;
+  }
+  .leaflet-control-attribution a { color: var(--ink) !important; }
+
+  .leaflet-popup-content-wrapper {
+    background-color: var(--bg-2);
+    border: 1px solid var(--border);
+    color: var(--ink);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px var(--shadow);
+  }
+  .leaflet-popup-tip { background-color: var(--bg-2); }
+
+  /* Drawer bottom sheet */
+  .drawer {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background-color: var(--bg-2);
+    border-top: 1px solid var(--border);
+    border-radius: 20px 20px 0 0;
+    z-index: 1000;
+    animation: slideUp 250ms ease forwards;
+    transition: background-color 0.3s ease;
+  }
+  .drawer-handle {
+    width: 36px; height: 4px;
+    background-color: var(--border-l);
+    border-radius: 9999px;
+    margin: 12px auto 20px;
+  }
+}
+
+html:not(.light) .leaflet-container .leaflet-tile {
+  filter: invert(1) hue-rotate(180deg) brightness(0.82) contrast(0.9);
+}
+
+@layer utilities {
+  .font-display { font-family: 'Syne', sans-serif; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
 }
